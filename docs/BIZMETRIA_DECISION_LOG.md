@@ -111,6 +111,14 @@ This log records approved global decisions. Master Control is the only workstrea
 - **Decision:** The project is divided into 13 dedicated workstream chats coordinated by Master Control and shared GitHub specifications.
 - **Affected workstreams:** All
 
+## DEC-015 — GitHub-native collaboration and handoffs
+
+- **Status:** Approved
+- **Date:** 2026-07-30
+- **Decision:** GitHub is the shared collaboration layer between all BizMetria chats. Specialist chats must store substantive deliverables in versioned repository files, submit them through draft pull requests, and keep review corrections on the same PR. Master Control reviews and merges work directly from GitHub, updates governance files, and assigns downstream tasks. The user should not manually copy full deliverables, Handoff Summaries, or review comments between chats.
+- **Implementation note:** `BIZMETRIA_PROJECT_STATUS.md` and `BIZMETRIA_TASK_QUEUE.md` are authoritative governance files maintained by Master Control.
+- **Affected workstreams:** All
+
 ## Pending decisions
 
 The following are not yet approved and must not be assumed:
