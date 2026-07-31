@@ -1,12 +1,12 @@
 # BizMetria Coordination Protocol
 
 **Version:** 1.0  
-**Status:** Approved baseline  
+**Status:** Approved baseline with GitHub-native operating rules  
 **Owner:** Master Control
 
 ## 1. Why this protocol exists
 
-Dedicated ChatGPT chats do not automatically share complete working memory. BizMetria therefore uses explicit files, versioning, contracts, and handoffs to keep all workstreams synchronized.
+Dedicated ChatGPT chats do not automatically share complete working memory. BizMetria therefore uses explicit GitHub files, versioning, contracts, pull requests, and handoffs to keep all workstreams synchronized. The user must not serve as a manual document-transfer mechanism between chats.
 
 ## 2. Source-of-truth hierarchy
 
@@ -14,23 +14,31 @@ When information conflicts, use this order:
 
 1. `BIZMETRIA_MASTER_BRIEF_v1.0.md`
 2. `BIZMETRIA_DECISION_LOG.md`
-3. Approved shared schemas and contracts
-4. Approved workstream deliverables
-5. Draft workstream notes
-6. Chat conversation history
+3. `BIZMETRIA_COORDINATION_PROTOCOL_v1.0.md`
+4. `BIZMETRIA_GITHUB_COLLABORATION_WORKFLOW_v1.0.md`
+5. Approved shared schemas and contracts
+6. Approved workstream deliverables in `main`
+7. `BIZMETRIA_PROJECT_STATUS.md` and `BIZMETRIA_TASK_QUEUE.md`
+8. Draft pull-request content
+9. Chat conversation history
 
 Conversation history alone is never the authoritative source for a cross-workstream decision.
 
 ## 3. Required startup procedure for every chat
 
-At the beginning of a work session, the workstream must:
+At the beginning of a work session, the workstream must read directly from the current `main` branch:
 
-1. Read the current Master Brief.
-2. Read the Decision Log.
-3. Read its dedicated chat brief.
-4. Read all named upstream dependencies.
-5. State the versions being used.
-6. Identify any missing inputs before making irreversible design decisions.
+1. `README.md`
+2. The current Master Brief
+3. This Coordination Protocol
+4. `BIZMETRIA_GITHUB_COLLABORATION_WORKFLOW_v1.0.md`
+5. The Decision Log
+6. Project Status
+7. Task Queue
+8. Its dedicated chat brief
+9. All named upstream dependencies
+
+The chat must state the task ID and versions being used. It must not ask the user to upload or paste files that are already in GitHub.
 
 ## 4. Workstream boundaries
 
@@ -51,6 +59,8 @@ Every deliverable must use one status:
 - `REVIEW`: complete enough for cross-functional review
 - `APPROVED`: accepted by Master Control and safe as a dependency
 - `DEPRECATED`: no longer valid; replacement must be named
+
+A specialist chat cannot mark a global deliverable `APPROVED` by itself.
 
 ## 6. Versioning
 
@@ -109,9 +119,11 @@ Global decisions require Master Control approval and a Decision Log entry.
 **Recommendation:** Approve / Reject / Investigate
 ```
 
+A Change Request must be included in the workstream deliverable and PR description. It is not approved until Master Control records the decision.
+
 ## 9. Handoff Summary format
 
-Every completed work package must end with:
+Every completed work package must include this block inside its primary GitHub deliverable:
 
 ```markdown
 # Handoff Summary
@@ -120,6 +132,7 @@ Every completed work package must end with:
 **Version:**
 **Status:** DRAFT / REVIEW / APPROVED
 **Owner workstream:**
+**Task ID:**
 **Purpose:**
 **Inputs used:**
 **Outputs created:**
@@ -132,6 +145,8 @@ Every completed work package must end with:
 **What must not be changed without approval:**
 **Recommended next action:**
 ```
+
+The user must not need to copy this block into another chat. Other chats read it from GitHub.
 
 ## 10. Shared contracts
 
@@ -179,25 +194,53 @@ English and Spanish interfaces must map to the same canonical IDs.
 - Original-language transcripts are preserved.
 - Reports are produced in the customer’s selected language.
 
-## 13. GitHub workflow
+## 13. Mandatory GitHub workflow
 
-Recommended structure:
+The complete operating procedure is defined in `BIZMETRIA_GITHUB_COLLABORATION_WORKFLOW_v1.0.md`.
 
-- `docs/` for source-of-truth specifications
+Required repository structure:
+
+- `docs/` for source-of-truth specifications and governance
 - `docs/chat-briefs/` for dedicated chat instructions
+- `docs/workstreams/` for versioned workstream deliverables
 - `schemas/` for JSON schemas
 - `prompts/` for approved AI prompts
 - `apps/` or implementation directories after architecture approval
 
 Rules:
 
-- Make changes on feature branches.
-- Open draft pull requests for cross-functional changes.
-- Reference Decision Log entries in PR descriptions.
-- Do not merge breaking contract changes without affected-workstream review.
-- Update documentation in the same PR as implementation when behavior changes.
+1. Master Control assigns work through `BIZMETRIA_TASK_QUEUE.md`.
+2. Specialists work on feature branches created from current `main`.
+3. Every substantive result is stored in GitHub.
+4. Specialists open draft pull requests for review.
+5. Specialists do not merge cross-functional work without explicit authorization.
+6. Master Control reviews files and PR diffs directly from GitHub.
+7. Review corrections stay on the same PR branch.
+8. Approved downstream work is read from `main`; the user does not copy documents between chats.
+9. Documentation changes ship with implementation changes when behavior changes.
+10. Secrets and customer-sensitive data are never committed.
 
-## 14. Review gates
+## 14. Project status and task ownership
+
+`BIZMETRIA_PROJECT_STATUS.md` is the authoritative workstream and gate-status registry.
+
+`BIZMETRIA_TASK_QUEUE.md` is the authoritative assignment registry.
+
+Only Master Control authoritatively updates these files. A specialist proposes status changes in its PR description and Handoff Summary.
+
+Each active task must include:
+
+- task ID;
+- owner workstream;
+- objective;
+- required inputs;
+- target artifacts;
+- acceptance criteria;
+- dependencies;
+- downstream consumers;
+- delivery method.
+
+## 15. Review gates
 
 ### Gate 1: Product Approved
 
@@ -223,15 +266,29 @@ Cross-industry and bilingual QA passes; critical defects are closed.
 
 Pilot feedback is incorporated, legal pages are published, analytics are verified, and Master Control approves release.
 
-## 15. Definition of done
+## 16. Definition of done
 
 A work item is complete only when:
 
-- The output is documented
+- The output is stored in the correct GitHub path
+- The document or contract is versioned
 - Acceptance criteria are met
-- Required tests are included
-- Dependencies are named
+- Required tests or validations are included
+- Dependencies and consumers are named
 - English and Spanish impact is considered
 - Security/privacy impact is considered
-- Handoff Summary is included
+- Handoff Summary is included in the deliverable
+- A draft PR exists for review
+- Review corrections are resolved
 - Master Control has approved it when global
+
+## 17. Minimal user role
+
+The user remains the product owner and final decision-maker but should normally need only to issue short commands:
+
+- tell a workstream to execute its active GitHub task;
+- tell Master Control to review a PR;
+- answer a genuinely unresolved product decision;
+- tell a workstream to address its GitHub review comments.
+
+The user should not manually transfer specifications, handoffs, or completed deliverables between chats.
