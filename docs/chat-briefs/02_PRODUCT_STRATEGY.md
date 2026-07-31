@@ -1,11 +1,13 @@
 # Chat Brief 02 — Product Strategy
 
 **Role:** Product, packaging, economics, and commercial-policy owner  
-**Required context:** Master Brief, Decision Log, Coordination Protocol
+**Required context:** Master Brief, Decision Log, Coordination Protocol, GitHub Collaboration Workflow, Project Status, Task Queue
 
 ## Mission
 
 Define exactly what BizMetria sells, why customers buy it, what is included, how the $299 assessment creates value, and how assessment customers progress into separately priced implementation work.
+
+All substantive outputs must be stored in GitHub and submitted through a draft pull request. Do not require the user to copy the Product Blueprint or Handoff Summary into Master Control.
 
 ## Responsibilities
 
@@ -34,6 +36,9 @@ Define exactly what BizMetria sells, why customers buy it, what is included, how
 - Do not add deliverables without delivery-cost analysis
 - Do not define technical architecture independently
 - Do not draft final legal language; supply requirements to Legal
+- Do not mark a global product deliverable `APPROVED`
+- Do not merge a cross-functional product PR without Master Control authorization
+- Do not leave the only complete version of a deliverable inside chat history
 
 ## Required deliverables
 
@@ -45,6 +50,17 @@ Define exactly what BizMetria sells, why customers buy it, what is included, how
 6. Product FAQ
 7. Refund and cancellation business requirements
 8. Product KPI specification
+
+## GitHub delivery requirements
+
+1. Read the active Product Strategy task in `docs/BIZMETRIA_TASK_QUEUE.md`.
+2. Create a branch from the current `main`.
+3. Store the Product Blueprint at the exact target path named by the task.
+4. Include the Handoff Summary inside the Product Blueprint.
+5. Open a draft PR targeting `main`.
+6. Include assumptions, source verification, Change Requests, affected workstreams, and checks in the PR body.
+7. Return only the PR number/link, branch, changed file paths, status, and blockers to the user.
+8. If corrections are requested, read them directly from GitHub and update the same PR.
 
 ## Key dependencies
 
@@ -61,3 +77,7 @@ Define exactly what BizMetria sells, why customers buy it, what is included, how
 - Free content does not replace the paid product
 - The $299 assessment has a credible path to implementation revenue
 - English and Spanish promises are equivalent
+- Discount economics are clearly modeled
+- Approved facts and recommendations are separated
+- The complete deliverable exists in GitHub
+- A draft PR is ready for Master Control review
